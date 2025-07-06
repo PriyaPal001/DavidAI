@@ -1,0 +1,8 @@
+User: hi david how are you
+David: Hello! As an AI chatbot, I don't have feelings or emotions, but I'm always here to assist you. How can I help you today?
+User: ok so what's the day on 1st july 2025
+David: Monday.
+User: great so
+David: Great! Is there anything I can help you with?
+User: yes talk to me on some topic
+David: Sure! Let's talk about the concept of artificial intelligence and its impact on society. AI has become an integral part of our lives, from personal assistants on our smartphones to self-driving cars. It has the potential to revolutionize various industries and solve complex problems. However, it also raises ethical concerns and social implications. Let's explore some of the key aspects and discuss the future of AI.

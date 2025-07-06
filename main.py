@@ -8,10 +8,50 @@ import datetime
 import random
 import cohere
 import re
+
 from config import apikey
 
+chatStr = ""
+conversation_file_path = None
+
+def chat(query):
+    global chatStr, conversation_file_path
+
+    try:
+        co = cohere.Client(api_key=apikey)
+
+        chatStr += f"User: {query}\nDavid:"
+
+        res = co.chat(
+            model="command-r-plus",
+            message=query,
+            chat_history=[
+                {"role": "USER", "message": query},
+            ]
+        )
+
+        text = res.text
+        chatStr += f" {text}\n"
+
+        say(text)
+
+        if not os.path.exists("Generated"):
+            os.mkdir("Generated")
+
+        if conversation_file_path is None:
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            conversation_file_path = f"Generated/conversation_{timestamp}.txt"
+
+        with open(conversation_file_path, "w", encoding="utf-8") as f:
+            f.write(chatStr)
+
+        return text
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return "Error: Could not generate response."
+
 def sanitize_filename(name):
-    # Remove invalid filename characters and limit length
     name = re.sub(r'[<>:"/\\|?*]', '', name)
     name = name.strip().replace(" ", "_")
     return name[:50]
@@ -20,21 +60,17 @@ def ai(prompt):
     try:
         co = cohere.Client(api_key=apikey)
 
-        # Send the prompt to Cohere
         res = co.chat(
             model="command-r-plus",
             message=prompt
         )
 
-        # Get the actual AI response
         text = res.text
-        # print(text)
 
     except Exception as e:
         print(f"An error occurred: {e}")
         text = "Error: Could not generate response."
 
-    # Ensure 'Generated' folder exists
     if not os.path.exists("Generated"):
         os.mkdir("Generated")
 
@@ -44,11 +80,10 @@ def ai(prompt):
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(text)
 
-
 def say(text):
     engine = pyttsx3.init()
-    engine.setProperty('rate', 125)  # Slower speech rate
-    engine.setProperty('volume', 1.0)  # Volume level (0.0 to 1.0)
+    engine.setProperty('rate', 125)
+    engine.setProperty('volume', 1.0)
     engine.say(text)
     engine.runAndWait()
 
@@ -87,33 +122,30 @@ if __name__ == "__main__":
     print("Hello, I am your David AI.")
     say("Hello, I am your David A I.")
 
-    # Define your music directory
     music_dir = r"c:\Users\priya\PycharmProjects\PythonProject\music"
 
     while True:
         query = takeCommand().lower()
+        handled = False
+
         sites = [
             ["youtube", "https://www.youtube.com/"],
             ["wikipedia", "https://en.wikipedia.org/"],
             ["google", "https://google.com/"]
         ]
-        site_opened = False
 
-        # Check for site opening
         for site in sites:
             if f"open {site[0]}" in query:
                 say(f"Opening {site[0]} sir...")
                 webbrowser.open(site[1])
-                site_opened = True
+                handled = True
                 break
 
-        # Check for named music files
         music_files = [
-            ["calm", os.path.join(music_dir, "calm-song.mp3")],
+            ["break", os.path.join(music_dir, "break.mp3")],
             ["focus", os.path.join(music_dir, "focus-track.mp3")],
-            ["ambient", os.path.join(music_dir, "ambient-loop.mp3")]
+            ["sweet", os.path.join(music_dir, "sweet.mp3")]
         ]
-        music_matched = False
 
         for song in music_files:
             if f"play {song[0]}" in query:
@@ -123,38 +155,39 @@ if __name__ == "__main__":
                 else:
                     opener = "open" if sys.platform == "darwin" else "xdg-open"
                     subprocess.call([opener, song[1]])
-                music_matched = True
+                handled = True
                 break
-
-        # Random music
-        # if "start music" in query and not music_matched:
-        #     play_random_music_from_directory(music_dir)
-        #     continue
-
-        # Time announcement
-        if "time" in query:
-            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
-            say(f"Sir, the time is {nowtime}")
 
         apps = [
             ["notepad", "notepad.exe"],
             ["calculator", "calc.exe"],
             ["paint", "mspaint.exe"],
-            ["command prompt", "cmd.exe"],
-            # ["chrome", r"C:\Program Files\Google\Chrome\Application\chrome.exe"],
-            # ["discord", r"C:\Users\priya\AppData\Local\Discord.exe"]
+            ["command prompt", "cmd.exe"]
         ]
 
         for app in apps:
             if f"open {app[0]}" in query:
                 say(f"Opening {app[0]}...")
                 os.startfile(app[1])
-                app_opened = True
+                handled = True
                 break
 
-        if "using AI".lower() in query.lower():
-            ai(prompt=query)
+        if "time" in query:
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
+            say(f"Sir, the time is {nowtime}")
+            handled = True
 
-        # Fallback response
-        if not site_opened and query:
-            say(query)
+        elif "using ai" in query:
+            ai(prompt=query)
+            handled = True
+
+        elif "david quit" in query:
+            exit()
+
+        elif "reset chat" in query:
+            chatStr = ""
+            handled = True
+
+        elif not handled and query:
+            print("chatting....")
+            chat(query)

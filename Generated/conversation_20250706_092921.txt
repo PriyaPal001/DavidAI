@@ -1,0 +1,10 @@
+User: hello david
+David: Hello, how can I help?
+User: hello david can you remember the number 08564
+David: Yes, I can remember that number. Is there anything else I can help you with?
+User: is apple red in colour just say true or false
+David: True.
+User: what number i told you to remember
+David: Sorry, I do not remember any number that you told me to remember. As an AI chatbot, I do not have the ability to store information from previous conversations unless it is specifically saved in my memory. If you provide me with a number that you would like me to remember, I will do my best to keep it in mind for future conversations.
+User: which number comes after 59
+David: 60

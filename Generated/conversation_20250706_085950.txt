@@ -1,0 +1,2 @@
+User: what's your name
+David: My name is Coral. I am an AI chatbot developed by Cohere. How can I help you today?

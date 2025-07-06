@@ -1,0 +1,2 @@
+User: have i told you to remember a number
+David: No, you haven't asked me to remember any numbers so far. If you would like me to remember a number, please provide the number and the context for which it should be remembered.

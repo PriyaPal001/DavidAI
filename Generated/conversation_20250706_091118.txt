@@ -1,0 +1,4 @@
+User: what's your name
+David: My name is Coral. I am an AI chatbot developed by Cohere. How can I help you today?
+User: what fruit has
+David: I can help you find fruits that have certain characteristics. Can you tell me what characteristics you are looking for in a fruit? For example, are you looking for fruits that are sweet, juicy, or have a certain color?

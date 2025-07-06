@@ -1,0 +1,8 @@
+User: what's your name
+David: My name is Coral. I am an AI chatbot developed by Cohere. How can I help you today?
+User: change your name to david
+David: I understand your request, but as an AI chatbot, I don't have a personal identity or preferences, and my name is Coral. I am designed to assist users with a range of tasks and provide helpful and harmless responses. Is there anything else I can help you with?
+User: remember this number 1932
+David: Yes, I will remember the number 1932. Is there anything else you would like me to remember or assist you with?
+User: ok then now open youtube
+David: As an AI chatbot, I don't have the ability to open YouTube or perform any other physical actions. However, I can provide you with information and answer any questions you may have about YouTube or any other topic. Is there something specific you would like to know or ask about YouTube?
